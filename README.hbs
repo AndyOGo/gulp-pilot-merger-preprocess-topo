@@ -1,0 +1,41 @@
+# Installation
+
+Install `gulp-pilot-merger-preprocess-topo` as a development dependency:
+
+```shell
+npm install --save-dev gulp-pilot-merger-preprocess-topo
+```
+
+# Usage
+
+After you have installed this plugin you can utilize it in your .pilotrc.{js,json} assuming you use gulp-pilot and preprocess:
+
+> .pilotrc.js
+
+````javascript
+module.exports = {
+    merger: {
+        'preprocess': 'gulp-pilot-merger-preprocess-topo'
+    }
+};
+````
+
+Or as simple JSON:
+
+> .pilotrc.json
+
+````JSON
+{
+    "merger": {
+        "preprocess": "gulp-pilot-merger-preprocess-topo"
+    }
+}
+````
+
+# API Documentation
+
+{{>main}}
+
+#License
+
+{{rawinclude 'LICENSE'}}
