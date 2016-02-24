@@ -25,6 +25,10 @@
   },
   "homepage": "https://github.com/AndyOGo/gulp-pilot-merger-preprocess-topo",
   "dependencies": {
-    "toposort-class": "^1.0.1"
+    "chalk": "^1.1.1",
+    "toposort": "^0.2.12"
+  },
+  "peerDependencies": {
+    "gulp-util": "*"
   }
 }
