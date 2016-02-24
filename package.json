@@ -1,0 +1,27 @@
+{
+  "name": "gulp-pilot-merger-preprocess-topo",
+  "version": "1.0.0",
+  "description": "A gulp-pilot merger plugin for preprocess configs supporting topological dependencies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:AndyOGo/gulp-pilot-merger-preprocess-topo.git"
+  },
+  "keywords": [
+    "gulp",
+    "gulp-pilot",
+    "gulpfriendly",
+    "gulpplugin",
+    "preprocess",
+    "gulp-pilot-merger"
+  ],
+  "author": "Andreas Deuschlinger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AndyOGo/gulp-pilot-merger-preprocess-topo/issues"
+  },
+  "homepage": "https://github.com/AndyOGo/gulp-pilot-merger-preprocess-topo"
+}
