@@ -14,7 +14,6 @@ module.exports = preprocessTopoMerger;
  * @param {Object} defaultConfig - The default config used to complement the new config.
  */
 function preprocessTopoMerger(config, defaultConfig) {
-    var toposort = new Toposort();
     var preprocess = config.preprocess;
     var preprocessDefault = defaultConfig.preprocess;
     var dependencies = defaultConfig.preprocessDependencies;
