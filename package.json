@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/AndyOGo/gulp-pilot-merger-preprocess-topo/issues"
   },
-  "homepage": "https://github.com/AndyOGo/gulp-pilot-merger-preprocess-topo"
+  "homepage": "https://github.com/AndyOGo/gulp-pilot-merger-preprocess-topo",
+  "dependencies": {
+    "toposort-class": "^1.0.1"
+  }
 }
