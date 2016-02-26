@@ -2,11 +2,38 @@ var chalk = require('chalk');
 var gutil = require('gulp-util');
 var toposort = require('toposort');
 
-module.exports = preprocessTopoMerger;
+module.exports = {
+    init: preprocessTopoInitializor,
+    merger: preprocessTopoMerger
+};
+
+/**
+ * Initializes preprocess options and sorts dependencies.
+ * This function adds a new property called `preprocessFeatures` holding an array of first level preprocess option keys.
+ *
+ * **Note:** Dependencies are read from `preprocessDependencies` property.
+ *
+ * @param {Object} config - The default or custom config to be initialized.
+ */
+function preprocessTopoInitializor(config) {
+    var preprocess = config.preprocess;
+    var dependencies = config.preprocessDependencies;
+    var features = Object.keys(preprocess);
+    var edges;
+
+    if(dependencies) {
+        edges = hashToEdges(dependencies);
+        features = toposort.array(features, edges).reverse();
+    }
+
+    config.preprocessFeatures = features;
+
+    gutil.log(chalk.green('Init preprocess features.'));
+}
 
 /**
  * Merges preprocess options through complementing with a default config file and sorts dependencies.
- * This function adds a new property called `preprocessFeatures` holding an array first level preprocess option keys.
+ * This function adds a new property called `preprocessFeatures` holding an array of first level preprocess option keys.
  *
  * **Note:** Dependencies are read from `preprocessDependencies` property.
  *
@@ -18,7 +45,7 @@ function preprocessTopoMerger(config, defaultConfig) {
     var preprocessDefault = defaultConfig.preprocess;
     var dependencies = defaultConfig.preprocessDependencies;
     var features;
-    var edges = hashToEdges(dependencies);
+    var edges;
     var edge;
     var node;
     var dep;
@@ -26,26 +53,32 @@ function preprocessTopoMerger(config, defaultConfig) {
     var resolved = [];
 
     // resolve dependant properties
-    for(i=0, l=edges.length; i<l; i++) {
-        edge = edges[i];
-        node = edge[0];
-        dep = edge[1];
+    if(dependencies) {
+        edges = hashToEdges(dependencies);
 
-        if(preprocess[node] && !preprocess[dep]) {
-            preprocess[dep] = preprocessDefault[dep];
+        for (i = 0, l = edges.length; i < l; i++) {
+            edge = edges[i];
+            node = edge[0];
+            dep = edge[1];
 
-            resolved.push(dep);
+            if (preprocess[node] && !preprocess[dep]) {
+                preprocess[dep] = preprocessDefault[dep];
 
-            edges.slice(i, 1);
-            l--;
-            i=-1;
+                resolved.push(dep);
+
+                edges.slice(i, 1);
+                l--;
+                i = -1;
+            }
         }
     }
 
     // set features
-    edges = hashToEdges(dependencies);
     features = Object.keys(preprocess);
-    features = toposort.array(features, edges).reverse();
+    if(dependencies) {
+        edges = hashToEdges(dependencies);
+        features = toposort.array(features, edges).reverse();
+    }
 
     config.preprocessFeatures = features;
 
@@ -53,6 +86,8 @@ function preprocessTopoMerger(config, defaultConfig) {
 }
 
 function hashToEdges(hash) {
+    if(!hash) return;
+
     var keys = Object.keys(hash);
     var edges = [];
     var key;
