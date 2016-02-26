@@ -14,6 +14,9 @@ After you have installed this plugin you can utilize it in your .pilotrc.{js,jso
 
 ````javascript
 module.exports = {
+    init: {
+        'preprocess': 'gulp-pilot-merger-preprocess-topo'
+    },
     merger: {
         'preprocess': 'gulp-pilot-merger-preprocess-topo'
     }
@@ -26,6 +29,9 @@ Or as simple JSON:
 
 ````JSON
 {
+    "init": {
+        "preprocess": "gulp-pilot-merger-preprocess-topo"
+    },
     "merger": {
         "preprocess": "gulp-pilot-merger-preprocess-topo"
     }
