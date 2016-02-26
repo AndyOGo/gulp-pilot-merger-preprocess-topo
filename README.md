@@ -34,10 +34,38 @@ Or as simple JSON:
 
 # API Documentation
 
+## Functions
+
+<dl>
+<dt><a href="#preprocessTopoInitializor">preprocessTopoInitializor(config)</a></dt>
+<dd><p>Initializes preprocess options and sorts dependencies.
+This function adds a new property called <code>preprocessFeatures</code> holding an array of first level preprocess option keys.</p>
+<p><strong>Note:</strong> Dependencies are read from <code>preprocessDependencies</code> property.</p>
+</dd>
+<dt><a href="#preprocessTopoMerger">preprocessTopoMerger(config, defaultConfig)</a></dt>
+<dd><p>Merges preprocess options through complementing with a default config file and sorts dependencies.
+This function adds a new property called <code>preprocessFeatures</code> holding an array of first level preprocess option keys.</p>
+<p><strong>Note:</strong> Dependencies are read from <code>preprocessDependencies</code> property.</p>
+</dd>
+</dl>
+
+<a name="preprocessTopoInitializor"></a>
+## preprocessTopoInitializor(config)
+Initializes preprocess options and sorts dependencies.
+This function adds a new property called `preprocessFeatures` holding an array of first level preprocess option keys.
+
+**Note:** Dependencies are read from `preprocessDependencies` property.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| config | <code>Object</code> | The default or custom config to be initialized. |
+
 <a name="preprocessTopoMerger"></a>
 ## preprocessTopoMerger(config, defaultConfig)
 Merges preprocess options through complementing with a default config file and sorts dependencies.
-This function adds a new property called `preprocessFeatures` holding an array first level preprocess option keys.
+This function adds a new property called `preprocessFeatures` holding an array of first level preprocess option keys.
 
 **Note:** Dependencies are read from `preprocessDependencies` property.
 
