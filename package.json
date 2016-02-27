@@ -1,6 +1,6 @@
 {
   "name": "gulp-pilot-merger-preprocess-topo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A gulp-pilot merger plugin for preprocess configs supporting topological dependencies",
   "main": "index.js",
   "scripts": {
