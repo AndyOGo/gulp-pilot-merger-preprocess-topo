@@ -22,7 +22,7 @@ function preprocessTopoInitializor(config) {
     var edges;
 
     if(dependencies) {
-        edges = hashToEdges(dependencies);
+        edges = hashToEdges(dependencies, preprocess);
         features = toposort.array(features, edges).reverse();
     }
 
@@ -54,7 +54,7 @@ function preprocessTopoMerger(config, defaultConfig) {
 
     // resolve dependant properties
     if(dependencies) {
-        edges = hashToEdges(dependencies);
+        edges = hashToEdges(dependencies, preprocess);
 
         for (i = 0, l = edges.length; i < l; i++) {
             edge = edges[i];
@@ -85,13 +85,32 @@ function preprocessTopoMerger(config, defaultConfig) {
     gutil.log(chalk.green('Resolved ') + chalk.yellow(resolved.length) + chalk.green(' Dependencies: ') + chalk.yellow(resolved.join(chalk.green(', '))));
 }
 
-function hashToEdges(hash) {
+/**
+ * A hash containing features and their respective dependencies.
+ *
+ * **Note:** This has also build in support for conditional dependencies.
+ *
+ * @typedef {Object.<string, Array.<string|{condition: string, value: string}>>} DependenciesHash
+ */
+
+/**
+ * Turns a preprocessDependencies hash in an array of edges, consumable by toposort algorithm.
+ *
+ * **Note:** This has also build in support for conditional dependencies.
+ *
+ * @param {DependenciesHash} hash - The preprocessDependencies hash.
+ * @param {Object} preprocess - The preprocess config object.
+ * @returns {Array}
+ */
+function hashToEdges(hash, preprocess) {
     if(!hash) return;
 
     var keys = Object.keys(hash);
     var edges = [];
     var key;
     var deps;
+    var dep;
+    var condition;
     var i, l, j, k;
 
     for(i=0, l=keys.length; i<l; i++) {
@@ -99,7 +118,21 @@ function hashToEdges(hash) {
         deps = hash[key];
 
         for(j=0, k=deps.length; j<k; j++) {
-            edges.push([key, deps[j]]);
+            dep = deps[j];
+
+            // check conditional dependency
+            if(typeof dep === 'object') {
+                condition = dep.condition;
+
+                // if feature is disabled -> continue
+                if(!preprocess || !preprocess[key] || !preprocess[key][condition])
+                    continue;
+
+                // else get dependency
+                dep = dep.value;
+            }
+
+            edges.push([key, dep]);
         }
     }
 
