@@ -76,7 +76,7 @@ function preprocessTopoMerger(config, defaultConfig) {
     // set features
     features = Object.keys(preprocess);
     if(dependencies) {
-        edges = hashToEdges(dependencies);
+        edges = hashToEdges(dependencies, preprocess);
         features = toposort.array(features, edges).reverse();
     }
 
