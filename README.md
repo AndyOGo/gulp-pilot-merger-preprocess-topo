@@ -53,6 +53,19 @@ This function adds a new property called <code>preprocessFeatures</code> holding
 This function adds a new property called <code>preprocessFeatures</code> holding an array of first level preprocess option keys.</p>
 <p><strong>Note:</strong> Dependencies are read from <code>preprocessDependencies</code> property.</p>
 </dd>
+<dt><a href="#hashToEdges">hashToEdges(hash, preprocess)</a> ⇒ <code>Array</code></dt>
+<dd><p>Turns a preprocessDependencies hash in an array of edges, consumable by toposort algorithm.</p>
+<p><strong>Note:</strong> This has also build in support for conditional dependencies.</p>
+</dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#DependenciesHash">DependenciesHash</a> : <code>Object.&lt;string, Array.&lt;(string|{condition: string, value: string})&gt;&gt;</code></dt>
+<dd><p>A hash containing features and their respective dependencies.</p>
+<p><strong>Note:</strong> This has also build in support for conditional dependencies.</p>
+</dd>
 </dl>
 
 <a name="preprocessTopoInitializor"></a>
@@ -82,6 +95,26 @@ This function adds a new property called `preprocessFeatures` holding an array o
 | config | <code>Object</code> | The new config to be merged with defaultConfig. |
 | defaultConfig | <code>Object</code> | The default config used to complement the new config. |
 
+<a name="hashToEdges"></a>
+## hashToEdges(hash, preprocess) ⇒ <code>Array</code>
+Turns a preprocessDependencies hash in an array of edges, consumable by toposort algorithm.
+
+**Note:** This has also build in support for conditional dependencies.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hash | <code>[DependenciesHash](#DependenciesHash)</code> | The preprocessDependencies hash. |
+| preprocess | <code>Object</code> | The preprocess config object. |
+
+<a name="DependenciesHash"></a>
+## DependenciesHash : <code>Object.&lt;string, Array.&lt;(string\|{condition: string, value: string})&gt;&gt;</code>
+A hash containing features and their respective dependencies.
+
+**Note:** This has also build in support for conditional dependencies.
+
+**Kind**: global typedef  
 
 #License
 
