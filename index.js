@@ -67,7 +67,7 @@ function preprocessTopoMerger(config, defaultConfig) {
                 resolved.push(dep);
 
                 edges.slice(i, 1);
-                l--;
+                l = edges.length;
                 i = -1;
             }
         }
