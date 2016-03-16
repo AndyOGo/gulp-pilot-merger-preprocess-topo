@@ -49,10 +49,11 @@ function preprocessTopoMerger(config, defaultConfig) {
     var edge;
     var node;
     var dep;
-    var i, l;
+    var i, edgesLength;
     var resolved = [];
     var path;
     var pathLength, j;
+    var preprocessDefaultTraverse;
     var featureFound;
     var featureHash;
     var featureHashItem;
@@ -61,7 +62,7 @@ function preprocessTopoMerger(config, defaultConfig) {
     if(dependencies) {
         edges = hashToEdges(dependencies, preprocess);
 
-        for (i = 0, l = edges.length; i < l; i++) {
+        for (i = 0, edgesLength = edges.length; i < edgesLength; i++) {
             edge = edges[i];
             node = edge[0];
 
@@ -70,21 +71,25 @@ function preprocessTopoMerger(config, defaultConfig) {
             featureFound = true;
             featureHash = {};
             featureHashItem = featureHash;
+            preprocessDefaultTraverse = preprocessDefault;
 
-            for(j=0, pathLength = path.length; j<l; j++) {
+            for(j=0, pathLength = path.length; j < pathLength; j++) {
                 dep = path[j];
 
                 // check if feature exists
-                if(!(dep in preprocessDefault)) {
+                if(!(dep in preprocessDefaultTraverse)) {
                     featureFound = false;
                     break;
                 }
 
+                preprocessDefaultTraverse = preprocessDefaultTraverse[dep];
+
                 // create feature object
                 if(j < pathLength-1) {
                     featureHashItem[dep] = {};
-                    featureHashItem = featureHashItem;
+                    featureHashItem = featureHashItem[dep];
                 }
+                // set last property to true
                 else {
                     featureHashItem[dep] = true;
                 }
@@ -109,9 +114,9 @@ function preprocessTopoMerger(config, defaultConfig) {
                 // if feature b is set but an object, they need to be merged
                 else if(typeof featureHash[dep] !== 'boolean') {
                     featureHashItem = featureHash;
-                    featureHash = preprocess[dep];
+                    featureHash = preprocess;
 
-                    for(j=0, pathLength = path.length; j<l; j++) {
+                    for(j=0, pathLength = path.length; j < pathLength; j++) {
                         dep = path[j];
 
                         // make that properties are merge even if object does not has the dep property at the moment.
@@ -130,8 +135,9 @@ function preprocessTopoMerger(config, defaultConfig) {
                 resolved.push(edge[1]);
 
                 // restart loop after dependency is resolved, because itself could depend on another feature
-                edges.slice(i, 1);
-                l = edges.length;
+                edges.splice(i, 1);
+                edgesLength = edges.length;
+
                 i = -1;
             }
         }
