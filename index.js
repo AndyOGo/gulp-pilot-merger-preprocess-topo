@@ -212,10 +212,13 @@ function hashToEdges(hash, preprocess, firstLevelOnly) {
 
                 // if feature is disabled -> continue
                 if(conditionOK) {
-                    value = dependency.value;
+                    value = dep.value;
 
                     if(typeof value === 'string') {
-                        dependencyHash[value] = true;
+                        if(firstLevelOnly) {
+                            value = value.split('.')[0];
+                        }
+                        edges.push([key, value]);
                     }
 
                     else if(Array.isArray(value)) {
@@ -233,9 +236,6 @@ function hashToEdges(hash, preprocess, firstLevelOnly) {
                         continue;
                     }
                 }
-
-                // else get dependency
-                dep = dep.value;
             }
             else if(typeof dep === 'string') {
                 if(firstLevelOnly) {
