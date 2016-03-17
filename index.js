@@ -112,7 +112,7 @@ function preprocessTopoMerger(config, defaultConfig) {
                     }
                 }
                 // if feature b is set but an object, they need to be merged
-                else if(typeof featureHash[dep] !== 'boolean') {
+                else if(preprocess[node] && typeof featureHash[dep] !== 'boolean') {
                     featureHashItem = featureHash;
                     featureHash = preprocess;
 
@@ -131,14 +131,18 @@ function preprocessTopoMerger(config, defaultConfig) {
                     }
                 }
 
-                // cache resolved items - just for logging
-                resolved.push(edge[1]);
+                // only rerun loop if edge has been added
+                // this needs to be done to make really sure everything is where it should be
+                if(preprocess[node]) {
+                    // cache resolved items - just for logging
+                    resolved.push(edge[1]);
 
-                // restart loop after dependency is resolved, because itself could depend on another feature
-                edges.splice(i, 1);
-                edgesLength = edges.length;
+                    // restart loop after dependency is resolved, because itself could depend on another feature
+                    edges.splice(i, 1);
+                    edgesLength = edges.length;
 
-                i = -1;
+                    i = -1;
+                }
             }
         }
     }
@@ -147,6 +151,7 @@ function preprocessTopoMerger(config, defaultConfig) {
     features = Object.keys(preprocess);
     if(dependencies) {
         edges = hashToEdges(dependencies, preprocess, true);
+
         features = toposort.array(features, edges).reverse();
     }
 
